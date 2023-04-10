@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { string, object } from 'yup';
 import { FaSearch } from 'react-icons/fa';
-import { Component } from 'react';
 
 const initialValues = {
   search: '',
@@ -50,6 +50,10 @@ class Searchbar extends Component {
       </header>
     );
   }
+}
+
+Searchbar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
 }
 
 export default Searchbar;
