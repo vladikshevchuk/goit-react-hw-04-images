@@ -1,54 +1,47 @@
-import { Component } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ModalWindow from 'components/modalWindow/modalWindow';
 
-class ImageGalleryItem extends Component {
-  state = {
-    isModalOpen: false,
-  };
+function ImageGalleryItem({ image }) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDawn);
-  }
+  useEffect(() => {
+    const handleKeyDawn = e => {
+      if (e.code === 'Escape') {
+        setIsModalOpen( false );
+      }
+    };
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDawn);
-  }
+    window.addEventListener('keydown', handleKeyDawn);
 
-  openModal = () => this.setState({ isModalOpen: true });
+    return () => {
+      window.removeEventListener('keydown', handleKeyDawn);
+    }
+  }, []);
 
-  closeModal = e => {
+  const openModal = () => setIsModalOpen( true );
+
+  const closeModal = e => {
     if (e.currentTarget === e.target) {
-      this.setState({ isModalOpen: false })
-    }
-  }
-
-  handleKeyDawn = e => {
-    if (e.code === 'Escape') {
-      this.setState({ isModalOpen: false });
+      setIsModalOpen( false );
     }
   };
 
-  render() {
-    const { image } = this.props;
-    const { isModalOpen } = this.state;
-
-    return (
-      <>
-        <img
-          className="ImageGalleryItem-image"
-          src={image.webformatURL}
-          alt={image.tags}
-          onClick={this.openModal}
-        />
-        {isModalOpen && <ModalWindow image={image} closeModal={ this.closeModal } />}
-      </>
-    );
-  }
+  return (
+    <>
+      <img
+        className="ImageGalleryItem-image"
+        src={image.webformatURL}
+        alt={image.tags}
+        onClick={openModal}
+      />
+      {isModalOpen && <ModalWindow image={image} closeModal={closeModal} />}
+    </>
+  );
 }
 
 ImageGalleryItem.propTypes = {
   image: PropTypes.object.isRequired,
-}
+};
 
 export default ImageGalleryItem;

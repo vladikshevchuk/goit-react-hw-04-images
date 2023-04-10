@@ -6,13 +6,9 @@ import ImageGallery from './ImageGallery/ImageGallery';
 function App() {
   const [searchLine, setSearchLine] = useState('');
 
-  const handleFormSubmit = searchLine => {
-    setSearchLine(searchLine);
-  };
-
   return (
     <div className="App">
-      <Searchbar onSubmit={handleFormSubmit} />
+      <Searchbar onSubmit={setSearchLine} />
       <ImageGallery searchLine={searchLine} />
     </div>
   );
