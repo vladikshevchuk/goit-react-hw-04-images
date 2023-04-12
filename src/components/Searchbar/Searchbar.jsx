@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Formik, Form, Field } from 'formik';
 import { string, object } from 'yup';
@@ -13,11 +12,8 @@ const schema = object({
 });
 
 function Searchbar({ onSubmit }) {
-  // eslint-disable-next-line no-unused-vars
-  const [search, setSearch] = useState('');
 
   const handleSubmit = (values, { resetForm }) => {
-    setSearch(values.search.toLowerCase().trim());
     onSubmit(values.search.toLowerCase().trim());
     resetForm();
   };
